@@ -1,0 +1,114 @@
+{
+  "feature": {
+    "allowCodeManual": false,
+    "allItemsWithBaseUOM": false,
+    "selectedAllGroup": false,
+    "selectedGroup": false,
+    "selectedAllCategory": false,
+    "selectedCategory": false,
+    "selectedAllBrand": false,
+    "selectedBrand": false
+  },
+  "manual": {
+    "code": "PL003",
+    "name": "Retail Price List",
+    "nameArabic": "قائمة أسعار التجزئة",
+    "currency": null,
+    "effectiveFromDate": null,
+    "effectiveToDate": null,
+    "description": "Price list applicable for retail sales"
+  },
+  "markup": {
+    "code": "PL004",
+    "name": "Markup Price List",
+    "nameArabic": "قائمة أسعار الجملة",
+    "currency": null,
+    "effectiveFromDate": null,
+    "effectiveToDate": null,
+    "description": "Markup Price List",
+    "priceRule": {
+      "percentageType": "Markup",
+      "percentage": 10,
+      "minUnitPricePercent": 10,
+      "maxUnitPricePercent": 15,
+      "defaultDiscountPercent": 10,
+      "maxDiscountPercent": 15,
+      "itemGroup1": "Electronics",
+      "itemGroup2": "Plastic",
+      "itemCategory1": "Electronics",
+      "itemCategory2": "Consumables",
+      "itemBrand1": "Whirlpool",
+      "itemBrand2": "HP"
+    }
+  },
+  "markdown": {
+    "code": "PL005",
+    "name": "Markdown Price List",
+    "nameArabic": "قائمة أسعار الجملة",
+    "currency": "KWD | Kuwaiti Dinar",
+    "effectiveFromDate": null,
+    "effectiveToDate": null,
+    "description": "Markdown Price List",
+    "priceRule": {
+      "percentageType": "Markdown",
+      "percentage": 10,
+      "minUnitPricePercent": 10,
+      "maxUnitPricePercent": 15,
+      "defaultDiscountPercent": 10,
+      "maxDiscountPercent": 15,
+      "itemGroup1": "Electronics",
+      "itemGroup2": "Plastic",
+      "itemCategory1": "Electronics",
+      "itemCategory2": "Consumables",
+      "itemBrand1": "Whirlpool",
+      "itemBrand2": "HP"
+    }
+  },
+  "update": [
+    {
+      "code": "PL006",
+      "name": "Retail Price List",
+      "updatedName": null,
+      "nameArabic": null,
+      "effectiveToDate": null,
+      "description": null,
+      "items": [
+        {
+          "item": "I0007 | Earphones",
+          "unitOfMeasure": "001 | Piece",
+          "minUnitPrice": 160,
+          "maxUnitPrice": 180,
+          "defaultDiscountPercent": 15,
+          "maximumDiscountPercent": 20
+        },
+        {
+          "item": "I0001 | Screen Protectors",
+          "unitOfMeasure": "001 | Piece",
+          "minUnitPrice": 50,
+          "maxUnitPrice": 60,
+          "defaultDiscountPercent": 15,
+          "maximumDiscountPercent": 20
+        },
+        {
+          "item": "I0002 | Phone Cases",
+          "unitOfMeasure": "001 | Piece",
+          "minUnitPrice": 100,
+          "maxUnitPrice": 120,
+          "defaultDiscountPercent": 15,
+          "maximumDiscountPercent": 20
+        }
+      ]
+    }
+  ],
+  "delete": [
+    {
+      "name": "Markdown Price List"
+    },
+    {
+      "name": "Markup Price List"
+    },
+    {
+      "name": "Retail Price List"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "feature": {
+    "allowCodeManual": false
+  },
+  "basics": [
+    {
+      "code": "C0016",
+      "name": "Customer - KWD",
+      "nameArabic": "Customer - KWD",
+      "currency": null
+    },
+    {
+      "code": "C0017",
+      "name": "Customer - AED",
+      "arabicName": "Customer - AED",
+      "currency": "AED | UAE Dirham"
+    }
+  ],
+  "keyInfos": [
+    {
+      "code": "C0018",
+      "name": "Customer - Key Info Tab",
+      "nameArabic": "Customer - Key Info Tab",
+      "currency": null,
+      "group": "CG01 | National",
+      "email": "setup@gmail.com",
+      "mobile": "98652545",
+      "telephone": "96522543",
+      "restrictPaymentTerm": true,
+      "selectAllPaymentTerms": true,
+      "paymentTerm1": "PT01 | Net 30",
+      "paymentTerm2": "PT02 | Net 50",
+      "restrictPriceList": true,
+      "selectAllPriceLists": true,
+      "priceList1": "PL001 | Standard",
+      "priceList2": "PL002 | Discounted",
+      "description": "Customer with Basic Informtion",
+      "receivableAccount": "11210 | Receivables",
+      "enableCreditControl": true,
+      "creditLimitAmount": 500,
+      "creditLimitDays": 50,
+      "creditRating": "Average",
+      "creditCheckMode": "Notify Only",
+      "enableDefaults": true,
+      "salesman": "SM02 | Habid Eid",
+      "paymentTerm": "PT02 | Net 50",
+      "priceList": "PL002 | Discounted",
+      "shippingTerm": "Factory",
+      "loadingPort": "1001",
+      "destinationPort": "2001",
+      "shippingMethod": "Air",
+      "shipmentPriority": "High"
+    }
+  ],
+  "addresses": [
+    {
+      "code": "C0019",
+      "name": "Customer - Address Tab",
+      "nameArabic": "Customer - Address Tab",
+      "currency": null,
+      "billingAddress1": "3021 Nyasia Shore",
+      "billingAddress2": "Fort Wayne",
+      "billingCountry": "Finland",
+      "billingState": "Netherlands",
+      "billingCity": "Alabama",
+      "billingZipcode": "43264",
+      "billingContactPerson": "Ali Subha",
+      "sameAsBillingAddress": false,
+      "shippingAddress1": "3021 Nyasia Shore",
+      "shippingAddress2": "Fort Wayne",
+      "shippingCountry": "Finland",
+      "shippingState": "Netherlands",
+      "shippingCity": "Alabama",
+      "shippingZipcode": "43264",
+      "shippingContactPerson": "Ali Subha"
+    }
+  ],
+  "contactPersons": [
+    {
+      "code": "C0020",
+      "name": "Customer - Contact Person Tab",
+      "nameArabic": "Customer - Contact Person Tab",
+      "currency": null,
+      "persons": [
+        {
+          "prefix": "Mr.",
+          "firstName": "Kareem",
+          "lastName": "Amiri",
+          "jobTitle": "Salesman",
+          "gender": "Male",
+          "mobile": "98652542",
+          "telephone": "964452415",
+          "email": "kareem@grand.com"
+        },
+        {
+          "prefix": "Mr.",
+          "firstName": "Salma",
+          "lastName": "Tabatabai",
+          "jobTitle": "Salesman",
+          "gender": "Female",
+          "mobile": "98652545",
+          "telephone": "964452416",
+          "email": "salma@grand.com"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "code": "C0021",
+      "name": "Customer - Documents Tab",
+      "nameArabic": "Customer - Documents Tab",
+      "currency": null,
+      "documents": [
+        {
+          "documentType": "Civil Id",
+          "documentNumber": "CID60017001",
+          "dateOfIssue": "01-Jan-2025",
+          "placeOfIssue": "Kuwait",
+          "dateOfExpiry": "31-Dec-2025"
+        },
+        {
+          "documentType": "Sponsor Contract",
+          "documentNumber": "SC600017001",
+          "dateOfIssue": "01-Jan-2025",
+          "placeOfIssue": "Salmiya",
+          "dateOfExpiry": "31-Dec-2025"
+        }
+      ]
+    }
+  ],
+  "validate": {
+    "allowCodeManual": true,
+    "code": "C0001",
+    "name": "Rahim Jaber"
+  },
+  "update": [
+    {
+      "name": "Customer - Key Info Tab",
+      "updatedCode": null,
+      "updatedName": null,
+      "nameArabic": "Customer - Key Info Tab Updated",
+      "currency": "KWD | Kuwaiti Dinar",
+      "group": "CG02 | International",
+      "email": "key.update@gmail.com",
+      "mobile": null,
+      "telephone": null,
+      "description": "Customer - Key Info Tab Updated",
+      "receivableAccount": "11210 | Receivables",
+      "creditLimitAmount": "1000",
+      "creditLimitDays": "60",
+      "creditRating": null,
+      "creditCheckMode": "Deny Sales",
+      "salesman": "SM01 | Mahammed Ebrahimi",
+      "paymentTerm": "PT01 | Net 50",
+      "priceList": null,
+      "shippingTerm": "Ex-Works",
+      "loadingPort": null,
+      "destinationPort": null,
+      "shippingMethod": "Road",
+      "shipmentPriority": "Normal"
+    },
+    {
+      "name": "Customer - Address Tab Updated",
+      "updatedCode": null,
+      "updatedName": null,
+      "arabicName": "Customer - Address Tab",
+      "currency": "KWD | Kuwaiti Dinar",
+      "billingAddress1": "3022 Nyasia Shore",
+      "billingAddress2": "Fort Wayne lane",
+      "billingCountry": "Finland",
+      "billingState": "Netherlands",
+      "billingCity": "Alabama",
+      "billingZipcode": "43264",
+      "billingContactPerson": "Ali Subha",
+      "shippingAddress1": "3022 Nyasia Shore",
+      "shippingAddress2": "Fort Wayne lane",
+      "shippingCountry": "Finland",
+      "shippingState": "Netherlands",
+      "shippingCity": "Alabama",
+      "shippingZipcode": "43264",
+      "shippingContactPerson": "Ali Subha"
+    }
+  ],
+  "delete": [
+    {
+      "name": "Customer - Documents Tab"
+    },
+    {
+      "name": "Customer - Contact Person Tab"
+    },
+    {
+      "name": "Customer - Address Tab"
+    },
+    {
+      "name": "Customer - Key Info Tab"
+    },
+    {
+      "name": "Customer - AED"
+    },
+    {
+      "name": "Customer - KWD"
+    }
+  ]
+}

@@ -69,7 +69,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: { width: 1500, height: 720 },
         // Use the saved authentication state
-        // storageState: '.auth/user.json',
+        storageState: '.auth/user.json',
       },
       dependencies: ['setup'],
     },

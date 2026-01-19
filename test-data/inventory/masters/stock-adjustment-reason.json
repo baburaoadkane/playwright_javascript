@@ -1,0 +1,84 @@
+{
+    "feature": {
+        "allowCodeManual": true
+    },
+    "validate": {
+        "code": "SAR01",
+        "name": "Damage"
+    },
+    "create": [
+        {
+            "code": "SAR04",
+            "name": "Inventory Damage",
+            "nameArabic": "تلف المخزون",
+            "documentType": "Qty Only",
+            "adjustmentType": "Negative Only",
+            "description": "Adjustment created when items are damaged or expired.",
+            "positiveAdjustmentAccount": "52103 | Inventory Adjustments",
+            "negativeAdjustmentAccount": "52103 | Inventory Adjustments"
+        },
+        {
+            "code": "SAR05",
+            "name": "Inventory Gain",
+            "nameArabic": "زيادة المخزون",
+            "documentType": "Qty Only",
+            "adjustmentType": "Positive Only",
+            "description": "Adjustment for unrecorded inventory found during stock count.",
+            "positiveAdjustmentAccount": "52103 | Inventory Adjustments",
+            "negativeAdjustmentAccount": null
+        },
+        {
+            "code": "SAR06",
+            "name": "Stock Transfer Correction",
+            "nameArabic": "تصحيح تحويل المخزون",
+            "documentType": "Qty And Value",
+            "adjustmentType": "Both",
+            "description": "Used when stock transfer discrepancies are corrected.",
+            "positiveAdjustmentAccount": "52103 | Inventory Adjustments",
+            "negativeAdjustmentAccount": "52103 | Inventory Adjustments"
+        }
+    ],
+    "update": [
+        {
+            "code": "SAR04",
+            "newCode": "SAR07",
+            "name": "Inventory Damage",
+            "newName": "Inventory Damage - Updated",
+            "nameArabic": "تلف المخزون - تحديث",
+            "documentType": "Qty And Value",
+            "adjustmentType": "Both",
+            "description": "Updated reason for damaged or expired inventory.",
+            "positiveAdjustmentAccount": "11310 | Inventory",
+            "negativeAdjustmentAccount": "11310 | Inventory"
+        },
+        {
+            "code": "SAR05",
+            "newCode": "SAR08",
+            "name": "Inventory Gain",
+            "newName": "Inventory Gain - Updated",
+            "nameArabic": "زيادة المخزون",
+            "documentType": "Qty Only",
+            "adjustmentType": "Positive Only",
+            "description": "Adjustment for unrecorded inventory found during stock count.",
+            "positiveAdjustmentAccount": "52103 | Inventory Adjustments",
+            "negativeAdjustmentAccount": null
+        }
+    ],
+    "delete": [
+        {
+            "name": "Inventory Gain - Updated"
+        },
+        {
+            "name": "Inventory Damage - Updated"
+        },
+        {
+            "name": "Stock Transfer Correction"
+        },
+        {
+            "name": "Inventory Gain"
+        },
+        {
+            "name": "Inventory Damage"
+        }
+    ]
+}

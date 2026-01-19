@@ -1,0 +1,75 @@
+{
+  "feature": {
+    "allowCodeManual": false
+  },
+  "create": [
+    {
+      "code": "SM05",
+      "name": "Adil Tamer",
+      "nameArabic": "Adil Tamer",
+      "description": "Senior Sales Executive",
+      "other": {
+        "type": "Salesman Only",
+        "salesCommissionInPercent": 5,
+        "title": "Senior Sales Executive",
+        "email": "adil@grand.com",
+        "extension": "214",
+        "mobile": "9658754524"
+      }
+    },
+    {
+      "code": "SM06",
+      "name": "Ali Khan",
+      "nameArabic": "Ali Khan",
+      "description": "Regional Sales Manager",
+      "other": {
+        "type": "Salesman Cum Collector",
+        "salesCommissionInPercent": 7,
+        "title": "Regional Sales Manager",
+        "email": "ali.khan@example.com",
+        "extension": "102",
+        "mobile": "9158754525"
+      }
+    }
+  ],
+  "update": [
+    {
+      "code": "SM05",
+      "name": "Adil Tamer",
+      "updatedName": null,
+      "nameArabic": "Adil Tamer Updated",
+      "description": null,
+      "other": {
+        "type": "Collector Only",
+        "salesCommissionInPercent": 10,
+        "title": null,
+        "email": null,
+        "extension": null,
+        "mobile": null
+      }
+    },
+    {
+      "code": "SM06",
+      "name": "Ali Khan",
+      "updatedName": null,
+      "nameArabic": "Ali Khan Updated",
+      "description": "Regional Sales Manager Updated",
+      "other": {
+        "type": "Salesman Only",
+        "salesCommissionInPercent": 10,
+        "title": null,
+        "email": null,
+        "extension": null,
+        "mobile": null
+      }
+    }
+  ],
+  "delete": [
+    {
+      "name": "Ali Khan"
+    },
+    {
+      "name": "Adil Tamer"
+    }
+  ]
+}

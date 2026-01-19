@@ -1,0 +1,55 @@
+{
+    "feature": {
+        "allowCodeManual": true
+    },
+    "validate": {
+        "code": "SCB001",
+        "name": "OCTBATCH",
+        "newName": "JANBATCH",
+        "warehouse": "Grand Prime House",
+        "freezedDate": "10-01-2026"
+    },
+    "create": [
+        {
+            "code": "SCB002",
+            "name": "Month Opening Batch",
+            "nameArabic": "جرد يناير",
+            "warehouse": "Grand Prime House",
+            "freezedDate": "10-01-2026",
+            "description": "Monthly stock count",
+            "adjustmentMethod": null
+        },
+        {
+            "code": "SCB003",
+            "name": "Month Closing Batch",
+            "nameArabic": "جرد يناير",
+            "warehouse": "Grand Prime House",
+            "freezedDate": "10-01-2026",
+            "description": "Monthly stock count",
+            "adjustmentMethod": "Skip Uncounted Items"
+        }
+    ],
+    "update": [
+        {
+            "code": "SCB002",
+            "newCode": "SCB004",
+            "name": "Month Opening Batch",
+            "newName": "New Month Opening Batch",
+            "nameArabic": "جرد يناير - تحديث",
+            "freezedDate": "11-01-2026",
+            "description": "New Month Opening Batch",
+            "adjustmentMethod": "Skip Uncounted Items"
+        }
+    ],
+    "delete": [
+        {
+            "name": "New Month Opening Batch"
+        },
+        {
+            "name": "Month Closing Batch"
+        },
+        {
+            "name": "Month Opening Batch"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "returnDomain",
+      "value": "testerp.onenfinity.com",
+      "domain": "testlogin.onenfinity.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".TESTAUTH",
+      "value": "8F1D506461A9967B3871E943723FBB4E6AA2D299F1B6A44617EE471A98F894AAEDE1CCE04C3F893862AF9931CC9D50C0E6E440F13E382BFAF89048B445D72A9370C6036A464EEF1C8EDA4497B3F21A1DB252CDAD50A553E639B8D06DD7F93A954F0E2DEB4AED0F9790F3994EBCE1FD9D64F1455D667E4CF77171500BFEB8A30FF046C5499A854339347F0F64470BB00B44B5C85B",
+      "domain": ".onenfinity.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://testerp.onenfinity.com",
+      "localStorage": [
+        {
+          "name": "refresh_notification_7e84cd56-7f4f-484f-a35f-a18a1c77d7f3",
+          "value": "Mon Jan 19 2026 07:56:56 GMT+0530 (India Standard Time)"
+        }
+      ]
+    }
+  ]
+}

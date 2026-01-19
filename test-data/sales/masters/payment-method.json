@@ -1,0 +1,64 @@
+{
+    "feature": {
+        "allowCodeManual": false
+    },
+    "create": [
+        {
+            "code": "003",
+            "name": "Debit Card",
+            "nameArabic": "بطاقة الائتمان",
+            "type": "Debit Card",
+            "bankAccount": "Cash-in-Hand",
+            "description": "Payment by Visa / MasterCard"
+        },
+        {
+            "code": "004",
+            "name": "Credit Card",
+            "nameArabic": "بطاقة الائتمان",
+            "type": "Credit Card",
+            "bankAccount": "Cash-in-Hand",
+            "description": "Payment by Visa / MasterCard"
+        },
+        {
+            "code": "005",
+            "name": "Loyalty Card",
+            "nameArabic": "التحويل المصرفي",
+            "type": "Loyalty",
+            "mainAccount": "11110 | Cash-in-Hand",
+            "description": "Payment by Loyalty Card"
+        },
+        {
+            "code": "006",
+            "name": "Credit Note",
+            "nameArabic": "التحويل المصرفي",
+            "type": "Credit Note",
+            "mainAccount": "11110 | Cash-in-Hand",
+            "description": "Payment by Credit Note"
+        }
+    ],
+    "update": [
+        {
+            "code": "006",
+            "name": "Credit Note",
+            "updatedName": null,
+            "nameArabic":"Credit Note Updated",
+            "type": null,
+            "mainAccount": "11150 | National Bank of Kuwait - KWD",
+            "description": "Payment by Credit Note updated"
+        }
+    ],
+    "delete": [
+        {
+            "name": "Credit Note"
+        },
+        {
+            "name": "Loyalty Card"
+        },
+        {
+            "name": "Credit Card"
+        },
+        {
+            "name": "Debit Card"
+        }
+    ]
+}

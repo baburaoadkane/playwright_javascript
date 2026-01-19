@@ -1,0 +1,49 @@
+{
+    "feature": {
+        "allowCodeManual": false
+    },
+    "validate": {
+        "code": "PT01",
+        "name": "Net 30",
+        "dueDays": 30
+    },
+    "create": [
+        {
+            "code": "PT03",
+            "name": "Net 75",
+            "nameArabic": "Net 75",
+            "dueDays": 75,
+            "autoInsertFor": "Customer",
+            "description": "Payment due within 75 days"
+        },
+        {
+            "code": "PT04",
+            "name": "Net 90",
+            "nameArabic": "Net 90",
+            "dueDays": 90,
+            "autoInsertFor": "Supplier",
+            "description": "Payment due within 90 days"
+        }
+    ],
+    "update": [
+        {
+            "code": "PT05",
+            "name": "Net 90",
+            "newName": "Net 60",
+            "nameArabic": "Net 60",
+            "dueDays": 60,
+            "description": "Payment due within 60 days"
+        }
+    ],
+    "delete": [
+        {
+            "name": "Net 60"
+        },
+        {
+            "name": "Net 90"
+        },
+        {
+            "name": "Net 75"
+        }
+    ]
+}

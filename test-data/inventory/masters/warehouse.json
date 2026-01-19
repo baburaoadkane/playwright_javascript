@@ -1,0 +1,57 @@
+{
+    "feature": {
+        "allowCodeManual": true,
+        "isFinancialSegmentsEnabled": true
+    },
+    "validate": {
+        "code": "WH01",
+        "name": "Grand Prime House"
+    },
+    "create": [
+        {
+            "code": "WH03",
+            "name": "SwiftSouth Hub",
+            "nameArabic": "SwiftSouth Hub",
+            "description": "Main southern distribution hub",
+            "financialIntegration": {
+                "segment1": "Account",
+                "segment2": "Account"
+            }
+        },
+        {
+            "code": "WH04",
+            "name": "SwiftNorth Hub",
+            "nameArabic": "SwiftNorth Hub",
+            "description": "Northern logistics center",
+            "financialIntegration": {
+                "segment1": "Sales",
+                "segment2": "Sales"
+            }
+        }
+    ],
+    "update": [
+        {
+            "code": "WH03",
+            "newCode": "WH05",
+            "name": "SwiftSouth Hub",
+            "newName": "SwiftEast Hub",
+            "nameArabic": "SwiftEast Hub",
+            "description": "Relocated to eastern region",
+            "financialIntegration": {
+                "segment1": "Purchase",
+                "segment2": "Purchase"
+            }
+        }
+    ],
+    "delete": [
+        {
+            "name": "SwiftEast Hub"
+        },
+        {
+            "name": "SwiftNorth Hub"
+        },
+        {
+            "name": "SwiftSouth Hub"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+  "feature": {
+    "allowCodeManual": true
+  },
+  "validate": {
+    "code": "DC001",
+    "name": "Civil Id"
+  },
+  "create": [
+    {
+      "code": "DOC001",
+      "name": "Vendor Credit Memo",
+      "nameArabic": "تعديل المخزون",
+      "expiryNotificationBeforeDays": "15",
+      "description": "Credit related document",
+      "applicableCompanies": [
+        "Grand (HRMS,ERP)",
+        "Milton (ERP)"
+      ] 
+    },
+    {
+      "code": "DOC002",
+      "name": "Lease Agreement",
+      "nameArabic": "إصدار المخزون",
+      "expiryNotificationBeforeDays": "10",
+      "description": "Lease Agreement Of Office.",
+      "applicableCompanies": [
+        "Grand (HRMS,ERP)",
+        "Milton (ERP)"
+      ] 
+    }
+  ],
+  "update": [
+    {
+      "code": "DOC001",      
+      "name": "Vendor Credit Memo",
+      "updatedCode": "DOC003",
+      "updatedName": "Update - Vendor Credit Memo",
+      "nameArabic": "تعديل المخزون",
+      "expiryNotificationBeforeDays": "25",
+      "description": "Update - Credit related document",
+      "applicableCompanies": [
+        "Tool (HRMS)"
+      ]
+    }
+  ],
+  "delete": [
+    {
+      "name": "Update - Vendor Credit Memo"
+    },
+    {
+      "name": "Lease Agreement"
+    },
+    {
+      "name": "Vendor Credit Memo"
+    }
+  ]
+}
