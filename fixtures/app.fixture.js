@@ -9,7 +9,7 @@ import { DocumentAction } from '../actions/common/document.action.js';
 import { UploadAction } from '../actions/common/upload.action.js';
 import { MasterHeaderAction } from '../actions/common/master-header.action.js';
 import { MasterDeleteAction } from '../actions/common/master-delete.action.js';
-import { ToastHelper } from '../helpers/toastHelper.js';
+import { ToastHelper } from '../helpers/toast-helper.js';
 
 async function openModule(app, moduleName) {
   await app.common.navigateToApp('/');

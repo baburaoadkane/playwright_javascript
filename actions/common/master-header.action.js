@@ -6,74 +6,60 @@ export class MasterHeaderAction {
     }
 
     /**
-     * Enters the given value into the Code input field.
+     * Enters value into Code field.
+     * Tries accessible textbox first, falls back to ID match.
      *
-     * This method locates the Code textbox using a partial ID match
-     * and fills it with the provided code value.
-     *
-     * @param {string} option - The code value to be entered.
+     * @param {string} code - Code value to be entered.
      */
-    async fillCode(option) {
-        await test.step(`Fill Code field with value: ${option}`, async () => {
-            await this.page.locator('input[id*="Code"]').fill(option);
+    async fillCode(code) {
+        await test.step(`Fill Code field with value: ${code}`, async () => {
+            const codeField = this.page.getByRole('textbox', { name: 'Code' });
+
+            if (await codeField.isVisible().catch(() => false)) {
+                await codeField.fill(code);
+            } else {
+                await this.page.locator('input[id*="Code"]').fill(code);
+            }
         });
     }
 
     /**
-     * Enters the given value into the Code input field.
+     * Enters value into Name field.
+     * Uses the first visible Name input.
      *
-     * This method locates the Code textbox using a partial ID match
-     * and fills it with the provided code value.
-     *
-     * @param {string} option - The code value to be entered.
+     * @param {string} name - Name value to be entered.
      */
-    async fillCodeIntoTextBox(option) {
-        await test.step(`Fill Code field with value: ${option}`, async () => {
-            await this.page.getByRole('textbox', { name: 'Code' }).fill(option);
+    async fillName(name) {
+        await test.step(`Fill Name field with value: ${name}`, async () => {
+            const nameField = this.page.getByRole('textbox', { name: 'Name' });
+
+            if (await nameField.isVisible().catch(() => false)) {
+                await nameField.fill(name);
+            } else {
+                await this.page.locator('input[id*="Name"]').first().fill(name);
+            }
         });
     }
 
     /**
-     * Enters the given value into the name input field.
+     * Enters value into Name Arabic field.
      *
-     * This method locates the Name textbox using a partial ID match
-     * and fills it with the provided name value.
-     * 
-     * Multiple Name inputs exist in DOM; using first visible one
-     *
-     * @param {string} option - The name value to be entered.
+     * @param {string} nameArabic - Arabic name value.
      */
-    async fillName(option) {
-        await test.step(`Fill Name field with value: ${option}`, async () => {
-            await this.page.locator('input[id*="Name"]').first().fill(option);
+    async fillNameArabic(nameArabic) {
+        await test.step(`Fill Name Arabic field with value: ${nameArabic}`, async () => {
+            await this.page.locator('input[id*="NameL2"]').fill(nameArabic);
         });
     }
 
     /**
-     * Enters the given value into the name arabic input field.
+     * Enters value into Description field.
      *
-     * This method locates the Name Arabic textbox using a partial ID match
-     * and fills it with the provided name arabic value.
-     *
-     * @param {string} option - The name arabic value to be entered.
+     * @param {string} description - Description text.
      */
-    async fillNameArabic(option) {
-        await test.step(`Fill Name Arabic field with value: ${option}`, async () => {
-            await this.page.locator('input[id*="NameL2"]').fill(option);
-        });
-    }
-
-    /**
-     * Enters the given value into the description textarea field.
-     *
-     * This method locates the Description textbox using a partial ID match
-     * and fills it with the provided description value.
-     *
-     * @param {string} option - The description value to be entered.
-     */
-    async fillDescription(option) {
-        await test.step(`Fill Description field with value: ${option}`, async () => {
-            await this.page.locator('textarea[id*="Description"]').fill(option);
+    async fillDescription(description) {
+        await test.step(`Fill Description field with value: ${description}`, async () => {
+            await this.page.locator('textarea[id*="Description"]').fill(description);
         });
     }
 }
