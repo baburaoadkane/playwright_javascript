@@ -1,0 +1,31 @@
+{
+  "name": "playwright_javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:accounting": "playwright test --grep \"@accounting\"",
+    "test:sales": "playwright test --grep \"@sales\"",
+    "test:purchase": "playwright test --grep \"@purchase\"",
+    "test:inventory": "playwright test --grep \"@inventory\"",
+    "test:validation": "playwright test --grep \"@validation\"",
+    "test:negative": "playwright test --grep \"@negative\"",
+    "test:positive": "playwright test --grep \"@positive\"",
+    "test:createMaster": "playwright test --grep \"@createMaster\"",
+    "test:updateMaster": "playwright test --grep \"@updateMaster\"",
+    "test:deleteMaster": "playwright test --grep \"@deleteMaster\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}
