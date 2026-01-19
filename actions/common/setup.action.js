@@ -10,51 +10,34 @@ export class SetupAction {
     }
 
     /**
-     * Navigates to the specified master by visible link text.
+     * Navigate to master listing by name.
      *
-     * This method clicks on the navigation link
-     * that matches the provided master name.
-     *
-     * @param {string} masterName - The name of the master to navigate to.
+     * @param {string} masterName - Master name to navigate
+     * @param {number} [index=0] - Optional index when multiple links exist
      */
-    async navigateToMasterByText(masterName) {
+    async navigateToMaster(masterName, index = 0) {
         await test.step(`Navigate to listing of ${masterName}`, async () => {
-            const link = this.getMasterLink(masterName);
-            await link.waitFor({ state: 'visible' });
-            await link.click();
-        });
-    }
-
-    /**
-     * Navigates to the specified master by visible text and index.
-     *
-     * This method clicks on the navigation link
-     * that matches the provided master name and index.
-     *
-     * @param {string} masterName - The name of the master.
-     * @param {number} index - Index of the link to click.
-     */
-    async navigateToMasterByTextAtIndex(masterName, index) {
-        await test.step(`Navigate to listing of ${masterName} at index ${index}`, async () => {
             const link = this.getMasterLink(masterName).nth(index);
+
             await link.waitFor({ state: 'visible' });
             await link.click();
         });
     }
 
     /**
-     * Opens a specific setting option under Purchase setup.
+     * Opens a specific setting under setup screens.
      *
-     * This method clicks on the settings link based on
-     * the provided option name.
-     *
-     * @param {string} option - The setting option to open.
+     * @param {string} settingName - Setting name to open
      */
-    async openSettingByText(option) {
-        await test.step(`Open setting option: ${option}`, async () => {
-            await this.page
-                .getByRole('link', { name: option, exact: true })
-                .click();
+    async openSettingByText(settingName) {
+        await test.step(`Open setting option: ${settingName}`, async () => {
+            const settingLink = this.page.getByRole('link', {
+                name: settingName,
+                exact: true
+            });
+
+            await settingLink.waitFor({ state: 'visible' });
+            await settingLink.click();
         });
     }
 }

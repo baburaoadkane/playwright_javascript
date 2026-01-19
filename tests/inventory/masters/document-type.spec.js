@@ -16,7 +16,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
     test.beforeEach(async ({ app, inventoryModule }) => {
         documentTypePage = new DocumentTypePage(app.page);
         await app.menu.clickLeftMenuOption('Setups');
-        await app.setup.navigateToMasterByText(ENTITY_NAME);
+        await app.setup.navigateToMaster(ENTITY_NAME);
     });
 
     test(`${ENTITY_NAME} | Validate | Duplicate code -> Validation error displayed`,
