@@ -14,17 +14,17 @@ export class MasterDeleteAction {
      * @param {string} name
      * @returns {Promise<boolean>}
      */
-    async isRecordExists(name, index) {
-        try {
-            await this.listingAction.filterMasterByColumnIndex(name, index);
-            return await this.page
-                .locator(`text=${name}`)
-                .first()
-                .isVisible({ timeout: 3000 });
-        } catch {
-            return false;
-        }
-    }
+    // async isRecordExists(name, index) {
+    //     try {
+    //         await this.listingAction.filterMasterByColumnIndex(name, index);
+    //         return await this.page
+    //             .locator(`text=${name}`)
+    //             .first()
+    //             .isVisible({ timeout: 3000 });
+    //     } catch {
+    //         return false;
+    //     }
+    // }
 
     /**
      * Deletes a master record by name
@@ -55,7 +55,7 @@ export class MasterDeleteAction {
      */
     async safeDeleteByName({ entityName, name, index, retries = 1 }) {
         // ===== Skip if record does not exist =====
-        const exists = await this.isRecordExists(name, index);
+        const exists = await this.listingAction.isRecordExistsAtIndexByName(name,index);
 
         if (!exists) {
             console.warn(`\n⚠️ Delete skipped because record not found → ${name}`);
