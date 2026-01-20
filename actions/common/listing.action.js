@@ -5,37 +5,62 @@ export class ListingAction {
         this.page = page;
     }
 
+    getColumnFilterInput(columnIndex) {
+        return this.page.locator(`input[aria-describedby="dx-col-${columnIndex}"]`);
+    }
+
     /**
-     * Filters the master listing by column index.
+     * Clears the filter value entered in a specific listing column.
      *
-     * This method enters the provided value into the
-     * column filter textbox to narrow down the results.
+     * This method is commonly used to reset the listing state
+     * after filtering records based on column data.
      *
-     * @param {string} masterInfo - The master details used for filtering the record
-     * @param {number} columnIndex - Index of the column
+     * @param {number} columnIndex - Zero-based index of the column filter input
      */
-    async filterMasterByColumnIndex(masterInfo, columnIndex) {
-        await test.step(`Filter record on listing by text: ${masterInfo}`, async () => {
-            await this.page
-                .locator(`input[aria-describedby="dx-col-${columnIndex}"]`)
-                .fill(masterInfo);
-            await this.page.waitForTimeout(2000);
+    async clearColumnFilterByIndex(columnIndex) {
+        await test.step(`Clear record data from column number: ${columnIndex}`, async () => {
+            await this.getColumnFilterInput(columnIndex).clear();
+            await this.page.waitForTimeout(500);
         });
     }
 
     /**
-     * Checks whether a master record exists in the listing with master details
+     * Applies a text filter on a specific listing column.
      *
-     * @param {string} masterInfo - The master details used for filtering the record
-     * @param {number} columnIndex - Index of the column
-     * @returns {Promise<boolean>}
+     * This method enters the given value into the column filter
+     * textbox to narrow down the listing results.
+     *
+     * @param {string} recordInfo - Text value used to filter the listing
+     * @param {number} columnIndex - Zero-based index of the column
      */
-    async isRecordExistsAtIndex(masterInfo, columnIndex) {
+    async filterRecordByColumnText(text, columnIndex) {
+        await test.step(`Filter listing by: ${text}`, async () => {
+            const input = this.getColumnFilterInput(columnIndex);
+            await input.fill(text);
+            // await input.press('Enter');
+
+            await this.page.waitForTimeout(1500);
+        });
+    }
+
+    /**
+     * Verifies whether a record exists in the listing using text search.
+     *
+     * This method first applies a column filter and then checks
+     * if the expected record text is visible in the listing.
+     *
+     * @param {string} recordInfo - Record text to verify
+     * @param {number} columnIndex - Index of the column to filter
+     * @returns {Promise<boolean>} 
+     * true  → record is visible  
+     * false → record not found or not visible
+     */
+    async isRecordVisibleByText(recordInfo, columnIndex) {
         try {
-            await this.filterMasterByColumnIndex(masterInfo, columnIndex);
+            await this.filterRecordByColumnText(recordInfo, columnIndex);
 
             return await this.page
-                .locator(`text=${masterInfo}`)
+                .locator(`text=${recordInfo}`)
                 .first()
                 .isVisible({ timeout: 3000 });
 
@@ -45,17 +70,21 @@ export class ListingAction {
     }
 
     /**
-     * Checks whether a master record exists in the listing
+     * Verifies whether a record exists in the listing using exact cell matching.
      *
-     * @param {string} masterInfo
+     * This method uses XPath to locate a table cell
+     * whose text exactly matches the provided value.
+     *
+     * @param {string} recordInfo - Exact record text to verify
+     * @param {number} columnIndex - Index of the column to filter
      * @returns {Promise<boolean>}
      */
-    async isRecordExistsAtIndexByName(masterInfo, columnIndex) {
+    async isRecordVisibleByExactText(recordInfo, columnIndex) {
         try {
-            await this.filterMasterByColumnIndex(masterInfo, columnIndex);
+            await this.filterRecordByColumnText(recordInfo, columnIndex);
 
             const record = this.page.locator(
-                `//td[normalize-space()='${masterInfo}']`
+                `//td[normalize-space()='${recordInfo}']`
             );
 
             return await record.first().isVisible({ timeout: 3000 });
@@ -65,145 +94,23 @@ export class ListingAction {
     }
 
     /**
-     * Filters the master listing by the given code.
-     *
-     * This method enters the provided value into the
-     * Code column filter textbox to narrow down the results.
-     *
-     * @param {string} option - The master code used for filtering.
-     */
-    // async filterMasterByCode(option) {
-    //     await test.step(`Filter master list by code: ${option}`, async () => {
-    //         await this.page
-    //             .locator('input[aria-describedby="dx-col-2"]')
-    //             .fill(option);
-    //         await this.page.waitForTimeout(2000);
-    //     });
-    // }
-
-
-    /**
-     * Checks whether a master record exists in the listing
-     *
-     * @param {string} code
-     * @returns {Promise<boolean>}
-     */
-    // async isRecordExistsWithCode(code) {
-    //     try {
-    //         await this.filterMasterByCode(code);
-    //         return await this.page
-    //             .locator(`text=${code}`)
-    //             .first()
-    //             .isVisible({ timeout: 3000 });
-    //     } catch {
-    //         return false;
-    //     }
-    // }
-
-    /**
-     * Filters the master listing by the given name.
-     *
-     * This method enters the provided value into the
-     * Name column filter textbox to narrow down the results.
-     *
-     * @param {string} name - The master name used for filtering.
-     */
-    // async filterMasterByName(name) {
-    //     await test.step(`Filter master list by name: ${name}`, async () => {
-    //         await this.page
-    //             .locator('input[aria-describedby="dx-col-3"]')
-    //             .fill(name);
-    //         await this.page.waitForTimeout(2000);
-    //     });
-    // }
-
-    /**
-     * Checks whether a master record exists in the listing
-     *
-     * @param {string} name
-     * @returns {Promise<boolean>}
-     */
-    // async isRecordExistsWithName(name) {
-    //     try {
-    //         await this.filterMasterByName(name);
-    //         return await this.page
-    //             .locator(`text=${name}`)
-    //             .first()
-    //             .isVisible({ timeout: 3000 });
-    //     } catch {
-    //         return false;
-    //     }
-    // }
-
-    /**
-     * Selects a master row from the listing by name.
-     *
-     * This method locates the row containing the given name,
-     * focuses on it, and performs a click to select the record.
-     *
-     * @param {string} option - The master name to be selected.
-     */
-    // async selectMasterRowByName(option) {
-    //     await test.step(`Select master row with name: ${option}`, async () => {
-    //         const row = this.page
-    //             .getByRole('row')
-    //             .filter({ hasText: option });
-
-    //         await row.focus();
-    //         await row.click({ position: { x: 10, y: 10 } });
-    //         await this.page.waitForTimeout(500);
-    //     });
-    // }
-
-    /**
-     * Selects a record from the listing by provided text.
-     *
-     * This method locates the row containing the given text,
-     * focuses on it, and performs a click to select the record.
-     *
-     * @param {string} name - The master record to be selected.
-     */
-    async selectRecordByName(name) {
-        await test.step(`Select record by name: ${name}`, async () => {
+    * Selects a record from the listing by record name.
+    *
+    * This method locates the row containing the provided text
+    * and performs a click action to select the record.
+    *
+    * @param {string} recordName - Name of the record to select
+    */
+    async selectRecordByName(recordName) {
+        await test.step(`Select record by name: ${recordName}`, async () => {
             const row = this.page
                 .getByRole('row')
-                .filter({ hasText: name });
+                .filter({ hasText: recordName });
 
             await row.focus();
             await row.click({ position: { x: 10, y: 10 } });
             await this.page.waitForTimeout(500);
         });
-    }  
-
-    
-
-    /**
-     * Clears the Name column filter in the master listing.
-     *
-     * This method removes the applied filter value
-     * to reset the listing view.
-     */
-    // async clearMasterNameColumnFilter() {
-    //     await test.step('Clear master name column filter', async () => {
-    //         await this.page
-    //             .locator('input[aria-describedby="dx-col-3"]')
-    //             .clear();
-    //         await this.page.waitForTimeout(500);
-    //     });
-    // }
-
-    /**
-     * Clears the column data used to filter in listing.
-     *
-     * This method removes the applied filter value
-     * to reset the listing view.
-     */
-    async clearFilterDataFromColumnIndex(columnIndex) {
-        await test.step(`Clear filter Data from column number: ${columnIndex}`, async () => {
-            await this.page
-                .locator(`input[aria-describedby="dx-col-${columnIndex}"]`)
-                .clear();
-            await this.page.waitForTimeout(500);
-        });
     }
+
 }

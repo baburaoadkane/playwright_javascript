@@ -6,25 +6,7 @@ export class MasterDeleteAction {
         this.listingAction = listingAction;
         this.commonAction = commonAction;
         this.menuAction = menuAction;
-    }
-
-    /**
-     * Checks whether a master record exists in the listing
-     *
-     * @param {string} name
-     * @returns {Promise<boolean>}
-     */
-    // async isRecordExists(name, index) {
-    //     try {
-    //         await this.listingAction.filterMasterByColumnIndex(name, index);
-    //         return await this.page
-    //             .locator(`text=${name}`)
-    //             .first()
-    //             .isVisible({ timeout: 3000 });
-    //     } catch {
-    //         return false;
-    //     }
-    // }
+    }    
 
     /**
      * Deletes a master record by name
@@ -32,9 +14,9 @@ export class MasterDeleteAction {
      * @param {string} entityName
      * @param {string} name
      */
-    async deleteMasterByName(entityName, name) {
-        await test.step(`Delete ${entityName}: ${name}`, async () => {
-            await this.listingAction.selectRecordByName(name);
+    async deleteMasterByName(entityName, recordName) {
+        await test.step(`Delete ${entityName}: ${recordName}`, async () => {
+            await this.listingAction.selectRecordByName(recordName);
             await this.commonAction.clickMeatballMenu();
             await this.menuAction.clickMenuOptionByText('Delete');
             await this.menuAction.clickMenuOptionByText('Ok');
@@ -55,7 +37,7 @@ export class MasterDeleteAction {
      */
     async safeDeleteByName({ entityName, name, index, retries = 1 }) {
         // ===== Skip if record does not exist =====
-        const exists = await this.listingAction.isRecordExistsAtIndexByName(name,index);
+        const exists = await this.listingAction.isRecordVisibleByExactText(name,index);
 
         if (!exists) {
             console.warn(`\n⚠️ Delete skipped because record not found → ${name}`);

@@ -38,7 +38,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             );
 
             // ===== Preconditions =====
-            const exists = await app.listing.isRecordExistsAtIndex(
+            const exists = await app.listing.isRecordVisibleByExactText(
                 documentType.code,
                 LISTING_COLUMN_INDEX.CODE
             );
@@ -106,7 +106,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             );
 
             // ===== Preconditions =====
-            const exists = await app.listing.isRecordExistsAtIndex(
+            const exists = await app.listing.isRecordVisibleByExactText(
                 documentType.name,
                 LISTING_COLUMN_INDEX.NAME
             );
@@ -179,7 +179,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     }
 
                     // ===== Skip if already exists =====
-                    const exists = await app.listing.isRecordExistsAtIndex(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                    const exists = await app.listing.isRecordVisibleByExactText(documentType.name, LISTING_COLUMN_INDEX.NAME);
                     if (exists) {
                         skippedRecords.push(documentType.name);
                         console.warn(`⚠️ Skipped: ${ENTITY_NAME} already exists → ${documentType.name}`);
@@ -298,7 +298,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     }
 
                     // ===== Skip if record does NOT exist =====
-                    const exists = await app.listing.isRecordExistsAtIndex(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                    const exists = await app.listing.isRecordVisibleByExactText(documentType.name, LISTING_COLUMN_INDEX.NAME);
                     if (!exists) {
                         skippedRecords.push(documentType.name);
                         console.warn(`⚠️ Skipped: ${ENTITY_NAME} does not exist → ${documentType.name}`);
