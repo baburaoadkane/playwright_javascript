@@ -38,7 +38,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             );
 
             // ===== Preconditions =====
-            const exists = await app.listing.isRecordExists(
+            const exists = await app.listing.isRecordExistsAtIndex(
                 documentType.code,
                 LISTING_COLUMN_INDEX.CODE
             );
@@ -51,7 +51,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             try {
 
                 await test.step('Open create form', async () => {
-                    await app.menu.clickListingMenuOptionByTitle('New');
+                    await app.menu.clickMenuOptionByTitle('New');
                 });
 
                 await test.step(`Fill duplicate code: ${documentType.code}`, async () => {
@@ -71,7 +71,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                 });
             } finally {
                 await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
-                    await app.menu.navigateBackToListingByTitle(ENTITY_NAME);
+                    await app.menu.navigateBackToListing(ENTITY_NAME);
                 });
             }
 
@@ -106,7 +106,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             );
 
             // ===== Preconditions =====
-            const exists = await app.listing.isRecordExists(
+            const exists = await app.listing.isRecordExistsAtIndex(
                 documentType.name,
                 LISTING_COLUMN_INDEX.NAME
             );
@@ -119,7 +119,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
             try {
 
                 await test.step('Open create form', async () => {
-                    await app.menu.clickListingMenuOptionByTitle('New');
+                    await app.menu.clickMenuOptionByTitle('New');
                 });
 
                 await test.step(`Fill existing name: ${documentType.name}`, async () => {
@@ -135,7 +135,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                 });
             } finally {
                 await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
-                    await app.menu.navigateBackToListingByTitle(ENTITY_NAME);
+                    await app.menu.navigateBackToListing(ENTITY_NAME);
                 });
             }
 
@@ -179,7 +179,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     }
 
                     // ===== Skip if already exists =====
-                    const exists = await app.listing.isRecordExists(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                    const exists = await app.listing.isRecordExistsAtIndex(documentType.name, LISTING_COLUMN_INDEX.NAME);
                     if (exists) {
                         skippedRecords.push(documentType.name);
                         console.warn(`⚠️ Skipped: ${ENTITY_NAME} already exists → ${documentType.name}`);
@@ -189,7 +189,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     try {
 
                         await test.step('Open create form', async () => {
-                            await app.menu.clickListingMenuOptionByTitle('New');
+                            await app.menu.clickMenuOptionByTitle('New');
                         });
 
                         await test.step(`Fill code: ${documentType.code} if feature is true`, async () => {
@@ -233,7 +233,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                         console.error(`🔴 ${ENTITY_NAME} creation failed for: ${documentType?.name}\n`, error);
                     } finally {
                         await app.menu
-                            .navigateBackToListingByTitle(ENTITY_NAME)
+                            .navigateBackToListing(ENTITY_NAME)
                             .catch(async () => {
                                 console.warn('🔴 Navigation failed, reloading page');
                                 await app.page.reload();
@@ -298,7 +298,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     }
 
                     // ===== Skip if record does NOT exist =====
-                    const exists = await app.listing.isRecordExists(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                    const exists = await app.listing.isRecordExistsAtIndex(documentType.name, LISTING_COLUMN_INDEX.NAME);
                     if (!exists) {
                         skippedRecords.push(documentType.name);
                         console.warn(`⚠️ Skipped: ${ENTITY_NAME} does not exist → ${documentType.name}`);
@@ -308,11 +308,11 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     try {
 
                         await test.step(`Select the record to update: ${documentType.name}`, async () => {
-                            await app.listing.selectRecordByText(documentType.name);
+                            await app.listing.selectRecordByName(documentType.name);
                         });
 
                         await test.step('Open edit form', async () => {
-                            await app.menu.clickListingMenuOptionByTitle('Edit');
+                            await app.menu.clickMenuOptionByTitle('Edit');
                         });
 
                         await test.step(`Fill new code: ${documentType.updatedCode} if feature is true`, async () => {
@@ -356,7 +356,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                         console.error(`🔴 ${ENTITY_NAME} update failed for: ${documentType?.name}\n`, error);
                     } finally {
                         await app.menu
-                            .navigateBackToListingByTitle(ENTITY_NAME)
+                            .navigateBackToListing(ENTITY_NAME)
                             .catch(async () => {
                                 console.warn('🔴 Navigation failed, reloading page');
                                 await app.page.reload();
@@ -418,6 +418,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     const result = await app.masterDelete.safeDeleteByName({
                         entityName: ENTITY_NAME,
                         name: documentType.name,
+                        index: LISTING_COLUMN_INDEX.NAME,
                         retries: 1
                     });
 

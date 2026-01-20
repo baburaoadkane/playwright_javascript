@@ -14,9 +14,9 @@ export class MasterDeleteAction {
      * @param {string} name
      * @returns {Promise<boolean>}
      */
-    async isRecordExists(name) {
+    async isRecordExists(name, index) {
         try {
-            await this.listingAction.filterMasterByName(name);
+            await this.listingAction.filterMasterByColumnIndex(name, index);
             return await this.page
                 .locator(`text=${name}`)
                 .first()
@@ -29,12 +29,12 @@ export class MasterDeleteAction {
     /**
      * Deletes a master record by name
      *
-     * @param {string} masterType
+     * @param {string} entityName
      * @param {string} name
      */
-    async deleteMasterByName(masterType, name) {
-        await test.step(`Delete ${masterType}: ${name}`, async () => {
-            await this.listingAction.selectRecordByText(name);
+    async deleteMasterByName(entityName, name) {
+        await test.step(`Delete ${entityName}: ${name}`, async () => {
+            await this.listingAction.selectRecordByName(name);
             await this.commonAction.clickMeatballMenu();
             await this.menuAction.clickMenuOptionByText('Delete');
             await this.menuAction.clickMenuOptionByText('Ok');
@@ -53,9 +53,9 @@ export class MasterDeleteAction {
      *
      * @returns {'deleted'|'skipped'|'failed'}
      */
-    async safeDeleteByName({ entityName, name, retries = 1 }) {
+    async safeDeleteByName({ entityName, name, index, retries = 1 }) {
         // ===== Skip if record does not exist =====
-        const exists = await this.isRecordExists(name);
+        const exists = await this.isRecordExists(name, index);
 
         if (!exists) {
             console.warn(`\n⚠️ Delete skipped because record not found → ${name}`);
@@ -66,6 +66,7 @@ export class MasterDeleteAction {
         for (let attempt = 1; attempt <= retries + 1; attempt++) {
             try {
                 await this.deleteMasterByName(entityName, name);
+                await this.page.waitForLoadState('networkidle');
                 return 'deleted';
             } catch (error) {
                 console.warn(`🔁 Delete attempt ${attempt} failed for ${name}`);

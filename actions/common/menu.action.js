@@ -77,7 +77,7 @@ export class MenuAction {
    * @param {string} option
    * @param {number} [index=0]
    */
-  async clickListingMenuOption(option, index = 0) {
+  async clickMenuOptionByTitle(option, index = 0) {
     await test.step(`Click listing toolbar option: ${option} [${index}]`, async () => {
       const menuItem = this.page.locator(`li[title="${option}"]`).nth(index);
       await menuItem.waitFor({ state: 'visible' });
@@ -89,7 +89,7 @@ export class MenuAction {
   /**
    * Navigate back to listing by clicking form title.
    */
-  async navigateBackToListingByTitle(formTitle) {
+  async navigateBackToListing(formTitle) {
     await test.step(`Navigate back to listing: ${formTitle}`, async () => {
       await this.page.getByRole('link', { name: formTitle, exact: true }).click();
       await this.page.waitForLoadState('networkidle');
