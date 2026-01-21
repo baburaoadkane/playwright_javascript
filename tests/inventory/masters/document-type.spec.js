@@ -17,145 +17,120 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
         documentTypePage = new DocumentTypePage(app.page);
         await app.menu.clickLeftMenuOption('Setups');
         await app.setup.navigateToMaster(ENTITY_NAME);
+    });    
+
+    test.describe(`${ENTITY_NAME} | Validate`, () => {
+        test.skip(
+            !documentTypeData.feature?.allowCodeManual,
+            'Setting → Allow code manual is OFF.'
+        );
+
+        test.skip(
+            !documentTypeData.validate?.code || !documentTypeData.validate?.name,
+            'Validation data missing: code or name.'
+        );
+
+        test(
+            'Duplicate code -> Validation error displayed',
+            { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
+            async ({ app }) => {
+
+                const documentType = documentTypeData.validate;
+
+                try {
+                    await test.step('Open form in create mode', async () => {
+                        await app.menu.clickMenuOptionByTitle('New');
+                    });
+
+                    await test.step(`Fill duplicate code: ${documentType.code}`, async () => {
+                        await app.header.fillCode(documentType.code);
+                    });
+
+                    await test.step(`Fill name: ${documentType.name}`, async () => {
+                        await app.header.fillName(documentType.name);
+                    });
+
+                    await test.step('Save record', async () => {
+                        await app.menu.clickTopMenuOption('Save');
+                    });
+
+                    await test.step('Validate duplicate code error message', async () => {
+                        await app.toast.assertValidationMessage(/duplicate code.*already exists/i);
+                    });
+
+                } finally {
+                    await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
+                        await app.menu.navigateBackToListing(ENTITY_NAME);
+                    });
+                }
+
+                await test.step('Log and export validation summary', async () => {
+                    SummaryHelper.logValidationSummary({
+                        entityName: ENTITY_NAME,
+                        type: 'Code',
+                        value: documentType.code
+                    });
+
+                    SummaryHelper.exportValidationSummary({
+                        entityName: ENTITY_NAME,
+                        type: 'Code',
+                        value: documentType.code
+                    });
+                });
+            }
+        );
     });
 
-    test(`${ENTITY_NAME} | Validate | Duplicate code -> Validation error displayed`,
-        { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
-        async ({ app }) => {
+    test.describe(`${ENTITY_NAME} | Validate`, () => {
 
-            const documentType = documentTypeData.validate;
+        const documentType = documentTypeData.validate;
 
-            // ===== Configuration validation =====
-            test.skip(
-                !documentTypeData.feature?.allowCodeManual,
-                'Setting → Allow code manual is OFF.'
-            );
+        test.skip(!documentType?.name, 'No data found.');
 
-            // ===== Test data validation =====
-            test.skip(
-                !documentType?.code || !documentType?.name,
-                'Validation data missing: code or name'
-            );
+        test(
+            'Duplicate name -> Validation error displayed',
+            { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
+            async ({ app }) => {
 
-            // ===== Preconditions =====
-            const exists = await app.listing.isRecordVisibleByExactText(
-                documentType.code,
-                LISTING_COLUMN_INDEX.CODE
-            );
+                try {
+                    await test.step('Open form in create mode', async () => {
+                        await app.menu.clickMenuOptionByTitle('New');
+                    });
 
-            test.skip(
-                !exists,
-                `Precondition failed: Document Type code '${documentType.code}' not found.`
-            );
+                    await test.step(`Fill existing name: ${documentType.name}`, async () => {
+                        await app.header.fillName(documentType.name);
+                    });
 
-            try {
+                    await test.step('Save record', async () => {
+                        await app.menu.clickTopMenuOption('Save');
+                    });
 
-                await test.step('Open create form', async () => {
-                    await app.menu.clickMenuOptionByTitle('New');
-                });
+                    await test.step('Validate duplicate name error message', async () => {
+                        await app.toast.assertValidationMessage(/already exists/i);
+                    });
 
-                await test.step(`Fill duplicate code: ${documentType.code}`, async () => {
-                    await app.header.fillCode(documentType.code);
-                });
+                } finally {
+                    await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
+                        await app.menu.navigateBackToListing(ENTITY_NAME);
+                    });
+                }
 
-                await test.step(`Fill name: ${documentType.name}`, async () => {
-                    await app.header.fillName(documentType.name);
-                });
+                await test.step('Log and export validation summary', async () => {
+                    SummaryHelper.logValidationSummary({
+                        entityName: ENTITY_NAME,
+                        type: 'Name',
+                        value: documentType.name
+                    });
 
-                await test.step('Save record', async () => {
-                    await app.menu.clickTopMenuOption('Save');
-                });
-
-                await test.step('Validate duplicate code error message', async () => {
-                    await app.toast.assertValidationMessage('duplicate code.*already exists');
-                });
-            } finally {
-                await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
-                    await app.menu.navigateBackToListing(ENTITY_NAME);
+                    SummaryHelper.exportValidationSummary({
+                        entityName: ENTITY_NAME,
+                        type: 'Name',
+                        value: documentType.name
+                    });
                 });
             }
-
-            await test.step('Log validation summary', async () => {
-                SummaryHelper.logValidationSummary({
-                    entityName: ENTITY_NAME,
-                    type: 'Code',
-                    value: documentType.code
-                });
-            });
-
-            await test.step('Export validation summary', async () => {
-                SummaryHelper.exportValidationSummary({
-                    entityName: ENTITY_NAME,
-                    type: 'Code',
-                    value: documentType.code
-                });
-            });
-
-        });
-
-    test(`${ENTITY_NAME} | Validate | Duplicate name -> Validation error displayed`,
-        { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
-        async ({ app }) => {
-
-            const documentType = documentTypeData.validate;
-
-            // ===== Test data validation =====
-            test.skip(
-                !documentType?.name,
-                'Validation data missing for name.'
-            );
-
-            // ===== Preconditions =====
-            const exists = await app.listing.isRecordVisibleByExactText(
-                documentType.name,
-                LISTING_COLUMN_INDEX.NAME
-            );
-
-            test.skip(
-                !exists,
-                `Precondition failed: Document Type name '${documentType.name}' not found.`
-            );
-
-            try {
-
-                await test.step('Open create form', async () => {
-                    await app.menu.clickMenuOptionByTitle('New');
-                });
-
-                await test.step(`Fill existing name: ${documentType.name}`, async () => {
-                    await app.header.fillName(documentType.name);
-                });
-
-                await test.step('Save record', async () => {
-                    await app.menu.clickTopMenuOption('Save');
-                });
-
-                await test.step('Validate duplicate name error message', async () => {
-                    await app.toast.assertValidationMessage('already exists');
-                });
-            } finally {
-                await test.step(`Navigate back to listing of ${ENTITY_NAME}`, async () => {
-                    await app.menu.navigateBackToListing(ENTITY_NAME);
-                });
-            }
-
-            await test.step('Log validation summary', async () => {
-                SummaryHelper.logValidationSummary({
-                    entityName: ENTITY_NAME,
-                    type: 'Name',
-                    value: documentType.name
-                });
-            });
-
-            await test.step('Export validation summary', async () => {
-                SummaryHelper.exportValidationSummary({
-                    entityName: ENTITY_NAME,
-                    type: 'Name',
-                    value: documentType.name
-                });
-            });
-
-        });
+        );
+    });
 
     test.describe(`${ENTITY_NAME} | Create`, () => {
         test.skip(!documentTypeData.create?.length, 'No data found');
