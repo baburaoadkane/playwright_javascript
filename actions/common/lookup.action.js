@@ -215,13 +215,13 @@ export class LookupAction {
         });
     }
 
-    async openLookupAndSelectValue(FieldLabel, value) {
+    async openLookupAndSelectValue(lookupLabel, value) {
         try{
-        const lookupButton = this.page.locator(`[id*="${FieldLabel}IdLookup_B-1Img"]`);
+        const lookupButton = this.page.locator(`[id*="${lookupLabel}IdLookup_B-1Img"]`);
         await lookupButton.click();
         await this.page.waitForTimeout(500);
         // 2. Handle the input field
-        const inputField = this.page.locator(`input[id*="${FieldLabel}IdLookup_I"]`);
+        const inputField = this.page.locator(`input[id*="${lookupLabel}IdLookup_I"]`);
         await inputField.click();
         await inputField.clear();
 
@@ -240,9 +240,9 @@ export class LookupAction {
         }
     }
 
-    async openLookupAndSelectItem(FieldLabel, value) {
+    async openLookupAndSelectItem(lookupLabel, value) {
         try{
-        const lookupButton = this.page.locator(`[id*="${FieldLabel}_B-1Img"]`);
+        const lookupButton = this.page.locator(`[id*="${lookupLabel}_B-1Img"]`);
         await lookupButton.click();
         await this.page.waitForTimeout(500);
 

@@ -7,8 +7,6 @@ export class DocumentTypePage {
       .getByLabel('Expiry Notification Before Days')
       .or(page.getByRole('textbox', { name: /expirynotificationbeforedays/i }));
     this.applicableCompaniesSelect = page.locator('[name="DocumentType.CompanyIds"]');
-    // If it's a multi-select dropdown, you might also want:
-    // this.companyOption = (companyName) => page.getByRole('option', { name: companyName });
   }
 
   /**
@@ -48,6 +46,7 @@ export class DocumentTypePage {
         // Ensure the item is visible before clicking
         await item.waitFor({ state: 'visible', timeout: 3000 });
         await item.click();
+        await this.page.waitForTimeout(500);
     }
   }
 }
