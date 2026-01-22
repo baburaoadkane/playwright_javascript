@@ -1,0 +1,19 @@
+{
+  "module": "Stock Adjustment Reason",
+  "action": "Delete",
+  "total": 5,
+  "successCount": 3,
+  "skippedCount": 2,
+  "failedCount": 0,
+  "successRecords": [
+    "Stock Transfer Correction",
+    "Inventory Gain",
+    "Inventory Damage"
+  ],
+  "skippedRecords": [
+    "Inventory Gain - Updated",
+    "Inventory Damage - Updated"
+  ],
+  "failedRecords": [],
+  "executedAt": "22/1/2026, 5:19:57 pm"
+}
