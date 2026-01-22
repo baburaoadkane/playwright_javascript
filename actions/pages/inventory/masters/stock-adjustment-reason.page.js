@@ -4,7 +4,7 @@ export class StockAdjustmentReasonPage {
     constructor(page) {
         this.page = page;
 
-        // LOcators
+        // Locators
         this.documentType = page.locator('[id*="DocumentType_B-1Img"]');
         this.adjustmentType = page.locator('[id*="AdjustmentType_B-1Img"]');
         this.positiveAdjustmentAccount = page.locator('[id*="PositiveAdjustmentMainAccountIdLookup_B-1Img"]');

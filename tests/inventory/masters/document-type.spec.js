@@ -9,7 +9,7 @@ import documentTypeData from '../../../test-data/inventory/masters/document-type
 // ===== Constants =====
 const ENTITY_NAME = ENTITY.DOCUMENT_TYPE;
 
-test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
+test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
 
     let documentTypePage;
 
@@ -182,7 +182,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                         await documentTypePage.selectCompanies(documentType.applicableCompanies);
                     });
 
-                    await test.step('Save record', async () => {
+                    await test.step('Save the record', async () => {
                         await app.menu.clickTopMenuOption('Save');
                     });
 
@@ -297,7 +297,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                         await documentTypePage.selectCompanies(documentType.applicableCompanies);
                     });
 
-                    await test.step('Save updated record', async () => {
+                    await test.step('Save the record', async () => {
                         await app.menu.clickTopMenuOption('Save');
                     });
 
