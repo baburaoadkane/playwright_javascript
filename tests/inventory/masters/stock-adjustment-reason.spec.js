@@ -81,7 +81,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@stock-adjustment-reason', '@validation', '@negative'] },
         async ({ app }) => {
 
-            const entity = entityData.validate;
+            const entity = entityData?.validate;
 
             test.skip(!entity?.name,
                 'Skipping: Duplicate name test data is missing.'
@@ -252,7 +252,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
 
                 if (!entity?.name) {
                     skippedRecords.push('UNKNOWN');
-                    console.warn('⚠️ Delete skipped: missing document type name', entity);
+                    console.warn('⚠️ Delete skipped: missing stock adjustment reason name', entity);
                     continue;
                 }
 
