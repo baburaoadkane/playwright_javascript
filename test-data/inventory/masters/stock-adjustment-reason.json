@@ -41,9 +41,9 @@
     "update": [
         {
             "code": "SAR04",
-            "newCode": "SAR07",
+            "updatedCode": "SAR07",
             "name": "Inventory Damage",
-            "newName": "Inventory Damage - Updated",
+            "updatedName": "Inventory Damage - Updated",
             "nameArabic": "تلف المخزون - تحديث",
             "documentType": "Qty And Value",
             "adjustmentType": "Both",
@@ -53,9 +53,9 @@
         },
         {
             "code": "SAR05",
-            "newCode": "SAR08",
+            "updatedCode": "SAR08",
             "name": "Inventory Gain",
-            "newName": "Inventory Gain - Updated",
+            "updatedName": "Inventory Gain - Updated",
             "nameArabic": "زيادة المخزون",
             "documentType": "Qty Only",
             "adjustmentType": "Positive Only",

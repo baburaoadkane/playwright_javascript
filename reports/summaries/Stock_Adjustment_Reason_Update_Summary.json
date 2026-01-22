@@ -1,0 +1,15 @@
+{
+  "module": "Stock Adjustment Reason",
+  "action": "Update",
+  "total": 2,
+  "successCount": 2,
+  "skippedCount": 0,
+  "failedCount": 0,
+  "successRecords": [
+    "Inventory Damage → Inventory Damage - Updated",
+    "Inventory Gain → Inventory Gain - Updated"
+  ],
+  "skippedRecords": [],
+  "failedRecords": [],
+  "executedAt": "22/1/2026, 11:54:51 pm"
+}

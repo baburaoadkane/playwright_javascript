@@ -71,8 +71,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     value: entity.code
                 };
 
-                SummaryHelper.logValidationSummary(summary);
-                SummaryHelper.exportValidationSummary(summary);
+                SummaryHelper.logAndExportValidationSummary(summary);
             });
         }
     );
@@ -117,8 +116,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     value: entity.name
                 };
 
-                SummaryHelper.logValidationSummary(summary);
-                SummaryHelper.exportValidationSummary(summary);
+                SummaryHelper.logAndExportValidationSummary(summary);
             });
         }
     );
@@ -223,8 +221,7 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     totalCount: entityData.create.length
                 };
 
-                SummaryHelper.logCrudSummary(summary);
-                SummaryHelper.exportCrudSummary(summary);
+                SummaryHelper.logAndExportCrudSummary(summary);
             });
 
             if (failedRecords.length > 0) {
@@ -233,6 +230,126 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                 );
             }
 
+        }
+    );
+
+    test(`${ENTITY_NAME} | Update | Valid data -> Record(s) updated successfully`,
+        { tag: ['@inventory', '@stock-adjustment-reason', '@crud'] },
+        async ({ app }) => {
+
+            test.skip(!entityData.update?.length, 'No data found');
+
+            // ===== Record tracking =====
+            const updatedRecords = [];
+            const skippedRecords = [];
+            const failedRecords = [];
+
+            // ===== Iterate to update =====
+            for (const entity of entityData.update) {
+
+                // ===== Skip invalid test data =====
+                if (
+                    !entity?.name ||
+                    !entity?.updatedName ||
+                    (entityData.feature?.allowCodeManual && !entity.updatedCode)
+                ) {
+                    skippedRecords.push(entity?.name ?? 'UNKNOWN');
+                    console.warn(`⚠️ Update skipped due to missing required data`, entity);
+                    continue;
+                }
+
+                // ===== Skip if record does not exist =====
+                const exists = await app.listing.isRecordVisibleByExactText(entity.name, LISTING_COLUMN_INDEX.NAME);
+                if (!exists) {
+                    skippedRecords.push(entity.name);
+                    console.warn(`⚠️ Skipped: ${ENTITY_NAME} does not exist → ${entity.name}`);
+                    continue;
+                }
+
+                try {
+
+                    await test.step(`Select the record to update: ${entity.name}`, async () => {
+                        await app.listing.selectRecordByName(entity.name);
+                    });
+
+                    await test.step('Open form in edit mode', async () => {
+                        await app.menu.clickMenuOptionByTitle(MENU_OPTION.EDIT);
+                    });
+
+                    await test.step(`Fill new code: ${entity.updatedCode} if feature is true`, async () => {
+                        if (entityData.feature?.allowCodeManual && entity.updatedCode) {
+                            await app.header.fillCode(entity.updatedCode);
+                        }
+                    });
+
+                    await test.step(`Fill new name: ${entity.updatedName}`, async () => {
+                        await app.header.fillName(entity.updatedName);
+                    });
+
+                    await test.step(`Open lookup and select document type: ${entity.documentType}`, async () => {
+                        await app.lookup.openLookupAndSelectItem(LOOKUP_VIEW.DOCUMENT_TYPE, entity.documentType);
+                    });
+
+                    await test.step(`Open lookup and select adjustment type: ${entity.adjustmentType}`, async () => {
+                        await app.lookup.openLookupAndSelectItem(LOOKUP_VIEW.ADJUSTMENT_TYPE, entity.adjustmentType);
+                    });
+
+                    await test.step('Fill optional fields (if provided)', async () => {
+                        if (ValidationHelper.isNonEmptyString(entity.nameArabic)) {
+                            await app.header.fillNameArabic(entity.nameArabic);
+                        }
+
+                        if (ValidationHelper.isNonEmptyString(entity.positiveAdjustmentAccount)) {
+                            await app.lookup.openLookupAndSelectValue(LOOKUP_VIEW.POSITIVE_ADJUSTMENT_ACCOUNT, entity.positiveAdjustmentAccount);
+                        }
+
+                        if (ValidationHelper.isNonEmptyString(entity.negativeAdjustmentAccount)) {
+                            await app.lookup.openLookupAndSelectValue(LOOKUP_VIEW.NEGATIVE_ADJUSTMENT_ACCOUNT, entity.negativeAdjustmentAccount);
+                        }
+                    });
+
+                    await test.step('Save the record', async () => {
+                        await app.menu.clickTopMenuOption(MENU_OPTION.SAVE);
+                    });
+
+                    await test.step(`Validate updated name: ${entity.updatedName}`, async () => {
+                        await expect(app.page.locator("input[name='StockAdjustmentReason.Name']")).toHaveValue(entity.updatedName);
+                    });
+
+                    updatedRecords.push(`${entity.name} → ${entity.updatedName}`);
+
+                } catch (error) {
+                    failedRecords.push(`${entity.name} → ${entity.updatedName}`);
+                    console.error(`🔴 ${ENTITY_NAME} update failed for: ${entity?.name}\n`, error);
+                } finally {
+                    await app.menu
+                        .navigateBackToListing(ENTITY_NAME)
+                        .catch(async () => {
+                            console.warn('🔴 Navigation failed, reloading page');
+                            await app.page.reload();
+                            await app.page.waitForLoadState('networkidle');
+                        });
+                }
+            }
+
+            await test.step('Log and export crud summary', async () => {
+                const summary = {
+                    entityName: ENTITY_NAME,
+                    action: 'Update',
+                    successRecords: updatedRecords,
+                    skippedRecords: skippedRecords,
+                    failedRecords: failedRecords,
+                    totalCount: entityData.update.length
+                };
+
+                SummaryHelper.logAndExportCrudSummary(summary);
+            });
+
+            if (failedRecords.length > 0) {
+                throw new Error(
+                    `🔴 ${ENTITY_NAME} update failed for: ${failedRecords.join(', ')}`
+                );
+            }
         }
     );
 
@@ -282,8 +399,8 @@ test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
                     failedRecords: failedRecords,
                     totalCount: entityData.delete.length
                 };
-                SummaryHelper.logCrudSummary(summary);
-                SummaryHelper.exportCrudSummary(summary);
+
+                SummaryHelper.logAndExportCrudSummary(summary);
             });
 
             if (failedRecords.length > 0) {

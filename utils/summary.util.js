@@ -257,4 +257,14 @@ export class SummaryHelper {
   </html>`;
   }
 
+  static logAndExportValidationSummary(summary) {
+    this.logValidationSummary(summary);
+    this.exportValidationSummary(summary);
+  }
+
+  static logAndExportCrudSummary(summary) {
+    this.logCrudSummary(summary);
+    this.exportCrudSummary(summary);
+  }
+
 }
