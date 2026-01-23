@@ -1,0 +1,15 @@
+{
+  "module": "Document Type",
+  "action": "Create",
+  "total": 2,
+  "successCount": 2,
+  "skippedCount": 0,
+  "failedCount": 0,
+  "successRecords": [
+    "Vendor Credit Memo",
+    "Lease Agreement"
+  ],
+  "skippedRecords": [],
+  "failedRecords": [],
+  "executedAt": "23/1/2026, 7:14:39 am"
+}

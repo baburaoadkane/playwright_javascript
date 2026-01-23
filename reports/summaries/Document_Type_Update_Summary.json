@@ -1,0 +1,14 @@
+{
+  "module": "Document Type",
+  "action": "Update",
+  "total": 1,
+  "successCount": 1,
+  "skippedCount": 0,
+  "failedCount": 0,
+  "successRecords": [
+    "Vendor Credit Memo → Updated - Vendor Credit Memo"
+  ],
+  "skippedRecords": [],
+  "failedRecords": [],
+  "executedAt": "23/1/2026, 7:14:55 am"
+}

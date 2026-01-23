@@ -1,0 +1,17 @@
+{
+  "module": "Document Type",
+  "action": "Delete",
+  "total": 3,
+  "successCount": 2,
+  "skippedCount": 1,
+  "failedCount": 0,
+  "successRecords": [
+    "Updated - Vendor Credit Memo",
+    "Lease Agreement"
+  ],
+  "skippedRecords": [
+    "Vendor Credit Memo"
+  ],
+  "failedRecords": [],
+  "executedAt": "23/1/2026, 7:15:18 am"
+}

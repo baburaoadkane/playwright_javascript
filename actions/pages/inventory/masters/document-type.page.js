@@ -28,7 +28,7 @@ export class DocumentTypePage {
    * Selects one or multiple companies in the dropdown
    * @param {string|string[]} companyNames 
    */
-  async selectCompanies(companyNames) {
+  async selectApplicableCompanies(companyNames) {
 
     if (!companyNames || (Array.isArray(companyNames) && companyNames.length === 0)) {
       return;

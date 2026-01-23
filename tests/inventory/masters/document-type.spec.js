@@ -1,21 +1,22 @@
 import { test, expect } from '../../../hooks/test.hooks.js';
 import { ENTITY } from '../../../constants/entities.js';
 import { LISTING_COLUMN_INDEX } from '../../../constants/listing-columns.js';
+import { MENU_OPTION } from '../../../constants/menu-options.js';
 import { ValidationHelper } from '../../../utils/validation.util.js';
 import { SummaryHelper } from '../../../utils/summary.util.js';
 import { DocumentTypePage } from '../../../actions/pages/inventory/masters/document-type.page.js';
-import documentTypeData from '../../../test-data/inventory/masters/document-type.json';
+import entityData from '../../../test-data/inventory/masters/document-type.json';
 
 // ===== Constants =====
 const ENTITY_NAME = ENTITY.DOCUMENT_TYPE;
 
-test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
+test.describe(`${ENTITY_NAME} | CRUD Operations`, () => {
 
-    let documentTypePage;
+    let entityPage;
 
     test.beforeEach(async ({ app, inventoryModule }) => {
-        documentTypePage = new DocumentTypePage(app.page);
-        await app.menu.clickLeftMenuOption('Setups');
+        entityPage = new DocumentTypePage(app.page);
+        await app.menu.clickLeftMenuOption(MENU_OPTION.SETUPS);
         await app.setup.navigateToMaster(ENTITY_NAME);
     });
 
@@ -23,12 +24,12 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
         async ({ app }) => {
 
-            const documentType = documentTypeData?.validate;
+            const entity = entityData?.validate;
 
             const canValidateDuplicateCode =
-                documentTypeData.feature?.allowCodeManual &&
-                documentType?.code &&
-                documentType?.name;
+                entityData.feature?.allowCodeManual &&
+                entity?.code &&
+                entity?.name;
 
             test.skip(
                 !canValidateDuplicateCode,
@@ -37,19 +38,19 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
 
             try {
                 await test.step('Open form in create mode', async () => {
-                    await app.menu.clickMenuOptionByTitle('New');
+                    await app.menu.clickMenuOptionByTitle(MENU_OPTION.NEW);
                 });
 
-                await test.step(`Enter duplicate code: ${documentType.code}`, async () => {
-                    await app.header.fillCode(documentType.code);
+                await test.step(`Enter duplicate code: ${entity.code}`, async () => {
+                    await app.header.fillCode(entity.code);
                 });
 
-                await test.step(`Enter name: ${documentType.name}`, async () => {
-                    await app.header.fillName(documentType.name);
+                await test.step(`Enter name: ${entity.name}`, async () => {
+                    await app.header.fillName(entity.name);
                 });
 
                 await test.step('Save the record', async () => {
-                    await app.menu.clickTopMenuOption('Save');
+                    await app.menu.clickTopMenuOption(MENU_OPTION.SAVE);
                 });
 
                 await test.step('Verify duplicate code validation message', async () => {
@@ -66,11 +67,10 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
                 const summary = {
                     entityName: ENTITY_NAME,
                     type: 'Code',
-                    value: documentType.code
+                    value: entity.code
                 };
 
-                SummaryHelper.logValidationSummary(summary);
-                SummaryHelper.exportValidationSummary(summary);
+                SummaryHelper.logAndExportValidationSummary(summary);
             });
         }
     );
@@ -79,23 +79,23 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@document-type', '@validation', '@negative'] },
         async ({ app }) => {
 
-            const documentType = documentTypeData.validate;
+            const entity = entityData.validate;
 
-            test.skip(!documentType?.name,
+            test.skip(!entity?.name,
                 'Skipping: Duplicate name test data is missing.'
             );
 
             try {
                 await test.step('Open form in create mode', async () => {
-                    await app.menu.clickMenuOptionByTitle('New');
+                    await app.menu.clickMenuOptionByTitle(MENU_OPTION.NEW);
                 });
 
-                await test.step(`Enter duplicate name: ${documentType.name}`, async () => {
-                    await app.header.fillName(documentType.name);
+                await test.step(`Enter duplicate name: ${entity.name}`, async () => {
+                    await app.header.fillName(entity.name);
                 });
 
                 await test.step('Save the record', async () => {
-                    await app.menu.clickTopMenuOption('Save');
+                    await app.menu.clickTopMenuOption(MENU_OPTION.SAVE);
                 });
 
                 await test.step('Validate duplicate name error message', async () => {
@@ -112,11 +112,10 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
                 const summary = {
                     entityName: ENTITY_NAME,
                     type: 'Name',
-                    value: documentType.name
+                    value: entity.name
                 };
 
-                SummaryHelper.logValidationSummary(summary);
-                SummaryHelper.exportValidationSummary(summary);
+                SummaryHelper.logAndExportValidationSummary(summary);
             });
         }
     );
@@ -125,7 +124,7 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@document-type', '@crud'] },
         async ({ app }) => {
 
-            test.skip(!documentTypeData.create?.length, 'No data found');
+            test.skip(!entityData.create?.length, 'No data found');
 
             // ===== Record tracking =====
             const createdRecords = [];
@@ -133,74 +132,78 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
             const failedRecords = [];
 
             // ===== Iterate to create =====
-            for (const documentType of documentTypeData.create) {
+            for (const entity of entityData.create) {
 
                 // ===== Skip invalid test data =====
-                if (!documentType?.name || (documentTypeData.feature?.allowCodeManual && !documentType.code)) {
-                    skippedRecords.push(documentType?.name ?? 'N/A');
-                    console.warn(`⚠️ Create skipped due to missing required data`, documentType);
+                if (!entity?.name || (entityData.feature?.allowCodeManual && !entity.code)) {
+                    skippedRecords.push(entity?.name ?? 'N/A');
+                    console.warn(`⚠️ Create skipped due to missing required data`, entity);
                     continue;
                 }
 
                 // ===== Skip if already exists =====
-                const exists = await app.listing.isRecordVisibleByExactText(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                const exists = await app.listing.isRecordVisibleByExactText(entity.name, LISTING_COLUMN_INDEX.NAME);
                 if (exists) {
-                    skippedRecords.push(documentType.name);
-                    console.warn(`⚠️ Skipped: ${ENTITY_NAME} already exists → ${documentType.name}`);
+                    skippedRecords.push(entity.name);
+                    console.warn(`⚠️ Skipped: ${ENTITY_NAME} already exists → ${entity.name}`);
                     continue;
                 }
 
                 try {
 
                     await test.step('Open form in create mode', async () => {
-                        await app.menu.clickMenuOptionByTitle('New');
+                        await app.menu.clickMenuOptionByTitle(MENU_OPTION.NEW);
                     });
 
                     await test.step('Fill code (if manual code feature enabled)', async () => {
-                        if (documentTypeData.feature?.allowCodeManual && documentType.code) {
-                            await app.header.fillCode(documentType.code);
+                        if (entityData.feature?.allowCodeManual && entity.code) {
+                            await app.header.fillCode(entity.code);
                         }
                     });
 
-                    await test.step(`Fill name: ${documentType.name}`, async () => {
-                        await app.header.fillName(documentType.name);
+                    await test.step(`Fill name: ${entity.name}`, async () => {
+                        await app.header.fillName(entity.name);
                     });
 
                     await test.step('Fill optional fields (if provided)', async () => {
-                        if (ValidationHelper.isNonEmptyString(documentType.nameArabic)) {
-                            await app.header.fillNameArabic(documentType.nameArabic);
+                        if (ValidationHelper.isNonEmptyString(entity.nameArabic)) {
+                            await app.header.fillNameArabic(entity.nameArabic);
                         }
 
-                        if (ValidationHelper.isNonEmptyString(documentType.description)) {
-                            await app.header.fillDescription(documentType.description);
+                        if (ValidationHelper.isNonEmptyString(entity.description)) {
+                            await app.header.fillDescription(entity.description);
                         }
 
-                        if (ValidationHelper.isNonEmptyString(documentType.expiryNotificationBeforeDays)) {
-                            await documentTypePage.fillExpiryNotificationBeforeDays(documentType.expiryNotificationBeforeDays);
+                        if (ValidationHelper.isNonEmptyString(entity.expiryNotificationBeforeDays)) {
+                            await entityPage.fillExpiryNotificationBeforeDays(entity.expiryNotificationBeforeDays);
                         }
 
-                        await documentTypePage.selectCompanies(documentType.applicableCompanies);
+                        if(entity.applicableCompanies?.length > 0){
+                            await entityPage.selectApplicableCompanies(entity.applicableCompanies);
+                        }
+                        
                     });
 
                     await test.step('Save the record', async () => {
-                        await app.menu.clickTopMenuOption('Save');
+                        await app.menu.clickTopMenuOption(MENU_OPTION.SAVE);
                     });
 
                     await test.step('Validate record created success message', async () => {
                         await app.toast.assertTextToast('DocumentType', 'Create');
                     });
 
-                    createdRecords.push(documentType.name);
+                    createdRecords.push(entity.name);
 
                 } catch (error) {
-                    failedRecords.push(documentType?.name);
-                    console.error(`🔴 ${ENTITY_NAME} creation failed for: ${documentType?.name}\n`, error);
+                    failedRecords.push(entity?.name);
+                    console.error(`🔴 ${ENTITY_NAME} creation failed for: ${entity?.name}\n`, error);
                 } finally {
                     await app.menu
                         .navigateBackToListing(ENTITY_NAME)
                         .catch(async () => {
                             console.warn('🔴 Navigation failed, reloading page');
-                            await app.page.reload();
+                            await app.page.reload();                            
+                            await app.page.waitForLoadState('networkidle');
                         });
                 }
             }
@@ -212,11 +215,10 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
                     successRecords: createdRecords,
                     skippedRecords: skippedRecords,
                     failedRecords: failedRecords,
-                    totalCount: documentTypeData.create.length
+                    totalCount: entityData.create.length
                 };
 
-                SummaryHelper.logCrudSummary(summary);
-                SummaryHelper.exportCrudSummary(summary);
+                SummaryHelper.logAndExportCrudSummary(summary);
             });
 
             if (failedRecords.length > 0) {
@@ -232,7 +234,7 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@document-type', '@crud'] },
         async ({ app }) => {
 
-            test.skip(!documentTypeData.update?.length, 'No data found');
+            test.skip(!entityData.update?.length, 'No data found');
 
             // ===== Record tracking =====
             const updatedRecords = [];
@@ -240,82 +242,85 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
             const failedRecords = [];
 
             // ===== Iterate to update =====
-            for (const documentType of documentTypeData.update) {
+            for (const entity of entityData.update) {
 
                 // ===== Skip invalid test data =====
                 if (
-                    !documentType?.name ||
-                    !documentType?.updatedName ||
-                    (documentTypeData.feature?.allowCodeManual && !documentType.updatedCode)
+                    !entity?.name ||
+                    !entity?.updatedName ||
+                    (entityData.feature?.allowCodeManual && !entity.updatedCode)
                 ) {
-                    skippedRecords.push(documentType?.name ?? 'UNKNOWN');
-                    console.warn(`⚠️ Update skipped due to missing required data`, documentType);
+                    skippedRecords.push(entity?.name ?? 'UNKNOWN');
+                    console.warn(`⚠️ Update skipped due to missing required data`, entity);
                     continue;
                 }
 
                 // ===== Skip if record does NOT exist =====
-                const exists = await app.listing.isRecordVisibleByExactText(documentType.name, LISTING_COLUMN_INDEX.NAME);
+                const exists = await app.listing.isRecordVisibleByExactText(entity.name, LISTING_COLUMN_INDEX.NAME);
                 if (!exists) {
-                    skippedRecords.push(documentType.name);
-                    console.warn(`⚠️ Skipped: ${ENTITY_NAME} does not exist → ${documentType.name}`);
+                    skippedRecords.push(entity.name);
+                    console.warn(`⚠️ Skipped: ${ENTITY_NAME} does not exist → ${entity.name}`);
                     continue;
                 }
 
                 try {
 
-                    await test.step(`Select the record to update: ${documentType.name}`, async () => {
-                        await app.listing.selectRecordByName(documentType.name);
+                    await test.step(`Select the record to update: ${entity.name}`, async () => {
+                        await app.listing.selectRecordByName(entity.name);
                     });
 
                     await test.step('Open form in edit mode', async () => {
-                        await app.menu.clickMenuOptionByTitle('Edit');
+                        await app.menu.clickMenuOptionByTitle(MENU_OPTION.EDIT);
                     });
 
-                    await test.step(`Fill new code: ${documentType.updatedCode} if feature is true`, async () => {
-                        if (documentTypeData.feature?.allowCodeManual && documentType.updatedCode) {
-                            await app.header.fillCode(documentType.updatedCode);
+                    await test.step(`Fill new code: ${entity.updatedCode} if feature is true`, async () => {
+                        if (entityData.feature?.allowCodeManual && entity.updatedCode) {
+                            await app.header.fillCode(entity.updatedCode);
                         }
                     });
 
-                    await test.step(`Fill new name: ${documentType.updatedName}`, async () => {
-                        await app.header.fillName(documentType.updatedName);
+                    await test.step(`Fill new name: ${entity.updatedName}`, async () => {
+                        await app.header.fillName(entity.updatedName);
                     });
 
                     await test.step('Fill optional fields (if provided)', async () => {
-                        if (ValidationHelper.isNonEmptyString(documentType.nameArabic)) {
-                            await app.header.fillNameArabic(documentType.nameArabic);
+                        if (ValidationHelper.isNonEmptyString(entity.nameArabic)) {
+                            await app.header.fillNameArabic(entity.nameArabic);
                         }
 
-                        if (ValidationHelper.isNonEmptyString(documentType.description)) {
-                            await app.header.fillDescription(documentType.description);
+                        if (ValidationHelper.isNonEmptyString(entity.description)) {
+                            await app.header.fillDescription(entity.description);
                         }
 
-                        if (ValidationHelper.isNonEmptyString(documentType.expiryNotificationBeforeDays)) {
-                            await documentTypePage.fillExpiryNotificationBeforeDays(documentType.expiryNotificationBeforeDays);
+                        if (ValidationHelper.isNonEmptyString(entity.expiryNotificationBeforeDays)) {
+                            await entityPage.fillExpiryNotificationBeforeDays(entity.expiryNotificationBeforeDays);
                         }
 
-                        await documentTypePage.selectCompanies(documentType.applicableCompanies);
+                        if(entity.applicableCompanies?.length > 0){
+                            await entityPage.selectApplicableCompanies(entity.applicableCompanies);
+                        }
                     });
 
                     await test.step('Save the record', async () => {
-                        await app.menu.clickTopMenuOption('Save');
+                        await app.menu.clickTopMenuOption(MENU_OPTION.SAVE);
                     });
 
-                    await test.step(`Validate updated name: ${documentType.updatedName}`, async () => {
-                        await expect(app.page.locator("input[name='DocumentType.Name']")).toHaveValue(documentType.updatedName);
+                    await test.step(`Validate updated name: ${entity.updatedName}`, async () => {
+                        await expect(app.page.locator("input[name='DocumentType.Name']")).toHaveValue(entity.updatedName);
                     });
 
-                    updatedRecords.push(`${documentType.name} → ${documentType.updatedName}`);
+                    updatedRecords.push(`${entity.name} → ${entity.updatedName}`);
 
                 } catch (error) {
-                    failedRecords.push(`${documentType.name} → ${documentType.updatedName}`);
-                    console.error(`🔴 ${ENTITY_NAME} update failed for: ${documentType?.name}\n`, error);
+                    failedRecords.push(`${entity.name} → ${entity.updatedName}`);
+                    console.error(`🔴 ${ENTITY_NAME} update failed for: ${entity?.name}\n`, error);
                 } finally {
                     await app.menu
                         .navigateBackToListing(ENTITY_NAME)
                         .catch(async () => {
                             console.warn('🔴 Navigation failed, reloading page');
-                            await app.page.reload();
+                            await app.page.reload();                            
+                            await app.page.waitForLoadState('networkidle');
                         });
                 }
             }
@@ -328,11 +333,10 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
                     successRecords: updatedRecords,
                     skippedRecords: skippedRecords,
                     failedRecords: failedRecords,
-                    totalCount: documentTypeData.update.length
+                    totalCount: entityData.update.length
                 };
 
-                SummaryHelper.logCrudSummary(summary);
-                SummaryHelper.exportCrudSummary(summary);
+                SummaryHelper.logAndExportCrudSummary(summary);
             });
 
             if (failedRecords.length > 0) {
@@ -348,7 +352,7 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
         { tag: ['@inventory', '@document-type', '@crud'] },
         async ({ app }) => {
 
-            test.skip(!documentTypeData.delete?.length, 'No data found');
+            test.skip(!entityData.delete?.length, 'No data found');
 
             // ===== Record tracking =====
             const deletedRecords = [];
@@ -356,27 +360,27 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
             const failedRecords = [];
 
             // ===== Iterate & Delete =====
-            for (const documentType of documentTypeData.delete) {
+            for (const entity of entityData.delete) {
 
-                if (!documentType?.name) {
+                if (!entity?.name) {
                     skippedRecords.push('UNKNOWN');
-                    console.warn('⚠️ Delete skipped: missing document type name', documentType);
+                    console.warn('⚠️ Delete skipped: missing document type name', entity);
                     continue;
                 }
 
                 const result = await app.masterDelete.safeDeleteByName({
                     entityName: ENTITY_NAME,
-                    name: documentType.name,
+                    name: entity.name,
                     index: LISTING_COLUMN_INDEX.NAME,
                     retries: 1
                 });
 
                 if (result === 'deleted') {
-                    deletedRecords.push(documentType.name);
+                    deletedRecords.push(entity.name);
                 } else if (result === 'skipped') {
-                    skippedRecords.push(documentType.name);
+                    skippedRecords.push(entity.name);
                 } else if (result === 'failed') {
-                    failedRecords.push(documentType.name);
+                    failedRecords.push(entity.name);
                 }
 
             }
@@ -388,10 +392,9 @@ test.describe.skip(`${ENTITY_NAME} | CRUD Operations`, () => {
                     successRecords: deletedRecords,
                     skippedRecords: skippedRecords,
                     failedRecords: failedRecords,
-                    totalCount: documentTypeData.delete.length
+                    totalCount: entityData.delete.length
                 };
-                SummaryHelper.logCrudSummary(summary);
-                SummaryHelper.exportCrudSummary(summary);
+                SummaryHelper.logAndExportCrudSummary(summary);
             });
 
             if (failedRecords.length > 0) {

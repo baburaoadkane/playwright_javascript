@@ -6,8 +6,8 @@
   "skippedCount": 2,
   "failedCount": 0,
   "successRecords": [
-    "Inventory Gain - Updated",
-    "Inventory Damage - Updated",
+    "Updated - Inventory Gain",
+    "Updated - Inventory Damage",
     "Stock Transfer Correction"
   ],
   "skippedRecords": [
@@ -15,5 +15,5 @@
     "Inventory Damage"
   ],
   "failedRecords": [],
-  "executedAt": "22/1/2026, 11:55:21 pm"
+  "executedAt": "23/1/2026, 7:17:53 am"
 }

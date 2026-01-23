@@ -35,7 +35,7 @@
       "code": "DOC001",      
       "name": "Vendor Credit Memo",
       "updatedCode": "DOC003",
-      "updatedName": "Update - Vendor Credit Memo",
+      "updatedName": "Updated - Vendor Credit Memo",
       "nameArabic": "تعديل المخزون",
       "expiryNotificationBeforeDays": "25",
       "description": "Update - Credit related document",
@@ -46,7 +46,7 @@
   ],
   "delete": [
     {
-      "name": "Update - Vendor Credit Memo"
+      "name": "Updated - Vendor Credit Memo"
     },
     {
       "name": "Lease Agreement"

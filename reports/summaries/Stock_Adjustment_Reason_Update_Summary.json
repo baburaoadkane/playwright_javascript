@@ -6,10 +6,10 @@
   "skippedCount": 0,
   "failedCount": 0,
   "successRecords": [
-    "Inventory Damage → Inventory Damage - Updated",
-    "Inventory Gain → Inventory Gain - Updated"
+    "Inventory Damage → Updated - Inventory Damage",
+    "Inventory Gain → Updated - Inventory Gain"
   ],
   "skippedRecords": [],
   "failedRecords": [],
-  "executedAt": "22/1/2026, 11:54:51 pm"
+  "executedAt": "23/1/2026, 7:17:22 am"
 }
