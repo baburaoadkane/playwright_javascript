@@ -1,3 +1,7 @@
+// NOTE:
+// This page handles ONLY Document Type-specific fields.
+// Common master header fields are handled by app.header.
+
 export class DocumentTypePage {
   constructor(page) {
     this.page = page;
